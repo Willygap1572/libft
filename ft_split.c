@@ -17,6 +17,7 @@ static size_t	get_word_length(char const *s, char c)
 	size_t	i;
 
 	i = 0;
+	//si empieza en c
 	while (s[i] != c && s[i] != '\0')
 		i++;
 	return (i);
