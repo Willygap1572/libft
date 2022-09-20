@@ -1,38 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gde-andr <gde-andr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/20 10:56:18 by gde-andr          #+#    #+#             */
+/*   Updated: 2022/09/20 10:56:42 by gde-andr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
-#include <stdio.h>
 
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	char			*q;
-	unsigned int	i;
-	unsigned int	len;
+	unsigned int	dst_len;
+	unsigned int	src_len;
 
-	i = 0;
-	len = ft_strlen(dst);
-	q = dst;
-	while (*q != '\0')
-		q++;
-	if (dstsize > len)
+	src_len = ft_strlen(src);
+	dst_len = 0;
+	while (*dst != '\0' && dstsize)
 	{
-		while (src[i] != '\0' && i < dstsize - len - 1)
-		{
-			*q = src[i];
-			i++;
-			q++;
-		}
-		*q = '\0';
+		dst++;
+		dstsize--;
+		dst_len++;
 	}
-	if (dstsize < len)
-		return (ft_strlen(src) + dstsize);
-	else
-		return (len + ft_strlen(src));
+	while (*src && dstsize-- > 1)
+		*dst++ = *src++;
+	if (dstsize == 0 || *src == 0)
+		*dst = '\0';
+	return (dst_len + src_len);
 }
-/*
-int main()
-{
-	char *dest = NULL;
-	
-	dest = (char *)malloc(sizeof(*dest) * 15);
-	ft_memset(dest, 'r', 15);
-	ft_strlcat(dest, "lorem ipsum dolor sit amet", 6);
-}*/
