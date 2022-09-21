@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 static size_t	get_word_length(char const *s, char c)
 {
@@ -29,7 +30,7 @@ static char	*get_word(char const *s, size_t word_len)
 	int		i;
 
 	i = 0;
-	word = (char *)malloc((word_len + 1) * sizeof(char));
+	word = (char *)ft_calloc((word_len + 1), sizeof(char));
 	while (i < (int)word_len)
 	{
 		word[i] = s[i];
@@ -48,11 +49,11 @@ static size_t	count_words(const char *s, char c)
 	len = 0;
 	while (s[i] != '\0')
 	{
-		if (s[i] == c && s[i + 1] != c)
+		if (s[i] == c && s[i + 1] != c && !(i != 0 && s[i - 1] == c))
 			len++;
 		i++;
 	}
-	return (len + 1);
+	return (len);
 }
 
 char	**ft_split(char const *s, char c)
@@ -64,7 +65,9 @@ char	**ft_split(char const *s, char c)
 
 	i = 0;
 	nwords = count_words(s, c);
-	matrix = (char **)malloc(nwords * sizeof(char *));
+	if (nwords == 0)
+		return (NULL);
+	matrix = (char **)ft_calloc((nwords + 2), sizeof(char *));
 	if (!matrix)
 		return (NULL);
 	while (*s)
@@ -78,3 +81,18 @@ char	**ft_split(char const *s, char c)
 	}
 	return (matrix);
 }
+
+// int main()
+// {
+// 	//char frase[]= "en un lugar de la mancha";
+// 	char	**matrix;
+// 	int i;
+
+// 	i = 0;
+// 	matrix = ft_split("lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse", ' ');
+// 	while (i < 12 && matrix)
+// 	{
+// 		printf("%s\n", matrix[i]);
+// 		i++;
+// 	}
+// }

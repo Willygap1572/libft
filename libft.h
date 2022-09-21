@@ -6,7 +6,7 @@
 /*   By: gde-andr <gde-andr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 18:41:26 by gde-andr          #+#    #+#             */
-/*   Updated: 2022/09/19 20:18:53 by gde-andr         ###   ########.fr       */
+/*   Updated: 2022/09/21 19:43:36 by gde-andr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlcat(char * restrict dst, const char * restrict src, size_t dstsize);
 size_t	ft_strlcpy(char * restrict dst, const char * restrict src, size_t dstsize);
 size_t	ft_strlen(const char *s);
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 char	*ft_strrchr(const char *str, char c);

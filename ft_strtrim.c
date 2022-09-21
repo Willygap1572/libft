@@ -11,16 +11,34 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	char	*q;
-	size_t	len;
+	int		i;
 
-	while (*s1 && ft_strrchr(set, *s1))
-		s1++;
-	len = ft_strlen(s1);
-	q = ft_substr(s1, 0, len + 1);
-	q[len] = '\0';
+	
+	while(*set)
+	{
+		i = 0;
+		q = (char *)s1;
+		while(ft_strchr(q, *set))
+		{
+			*q = '\0';
+			i++;
+			q++;
+		}
+		if (i == 0)
+			break;
+		set++;
+	}
 	return (q);
+}
+
+int main()
+{
+	char s1[] = "lorem ipsum dolor sit amet";
+	ft_strtrim(s1, "te");
+	printf("%s\n",s1);
 }
