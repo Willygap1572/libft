@@ -11,13 +11,15 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
+#include <unistd.h>
 
 static int	sizen(int num)
 {
 	int	size;
 
 	size = 0;
-	while (num >= 1)
+	while (num >= 1 || num <= -1)
 	{
 		size++;
 		num /= 10;
@@ -27,27 +29,31 @@ static int	sizen(int num)
 
 char	*ft_itoa(int num)
 {
-	char	*ret;
 	int		size;
-	int		nflag;
+	char	*ret;
 
-	nflag = 0;
+	if (num == 0)
+		return (ft_strdup("0"));
+	if (num == -2147483648LL)
+		return (ft_strdup("-2147483648"));
+	size = sizen(num);
+	if (num < 0)
+		size++;
+	ret = (char *)ft_calloc(size + 1, sizeof(char));
 	if (num < 0)
 	{
-		nflag = 1;
 		num *= -1;
-	}
-	size = sizen(num);
-	if (nflag == 1)
-		size++;
-	ret = (char *)malloc(size * sizeof(char));
-	if (nflag == 1)
 		ret[0] = '-';
-	while (num >= 1)
+	}
+	while (num >= 1 && size > 0)
 	{
-		ret[size - 1] = (num % 10) + '0';
+		ret[--size] = (num % 10) + '0';
 		num /= 10;
-		size--;
 	}
 	return (ret);
 }
+
+// int	main(void)
+// {
+// 	printf("%s", ft_itoa(10));
+// }
