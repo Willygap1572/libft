@@ -6,7 +6,7 @@
 /*   By: gde-andr <gde-andr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 20:13:17 by gde-andr          #+#    #+#             */
-/*   Updated: 2022/09/19 20:13:29 by gde-andr         ###   ########.fr       */
+/*   Updated: 2022/11/15 18:26:24 by gde-andr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 	size_t	i;
 
 	i = 0;
-	if (!src)
-		return (0);
 	src_len = ft_strlen(src);
 	if (dstsize == 0)
 		return (src_len);

@@ -21,6 +21,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	s1_len = ft_strlen(s1);
 	s2_len = ft_strlen(s2);
 	q = (char *)malloc((s1_len + s2_len + 2) * sizeof(char));
+	if (!q)
+		return (NULL);
 	ft_strlcpy(q, s1, s1_len + 1);
 	ft_strlcat(q, s2, s1_len + s2_len + 1);
 	q[s1_len + s2_len] = '\0';

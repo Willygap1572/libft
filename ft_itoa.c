@@ -40,6 +40,8 @@ char	*ft_itoa(int num)
 	if (num < 0)
 		size++;
 	ret = (char *)ft_calloc(size + 1, sizeof(char));
+	if (!ret)
+		return (NULL);
 	if (num < 0)
 	{
 		num *= -1;
