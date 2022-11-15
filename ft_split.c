@@ -13,86 +13,77 @@
 #include "libft.h"
 #include <stdio.h>
 
-static size_t	get_word_length(char const *s, char c)
+size_t	word_count(char const *s, char c)
 {
-	size_t	i;
+	char	*q;
+	size_t	n;
 
-	i = 0;
-	//si empieza en c
-	while (s[i] != c && s[i] != '\0')
-		i++;
-	return (i);
+	if (*s == '\0')
+		return (0);
+	n = 0;
+	q = (char *)s;
+	while(*q)
+	{
+		if (*q == c)
+		{
+			n++;
+			while (*q == c)
+			{
+				q++;
+			}
+		}
+		q++;
+	}
+	return (n);
 }
 
-static char	*get_word(char const *s, size_t word_len)
+char	*word_alloc_fill(char **s, char c)
 {
 	char	*word;
-	int		i;
+	char	*tmp;
+	int		n;
 
-	i = 0;
-	word = (char *)ft_calloc((word_len + 1), sizeof(char));
-	while (i < (int)word_len)
+	n = 0;
+	tmp = *s;
+	while (*tmp != c && *tmp != '\0')
 	{
-		word[i] = s[i];
-		i++;
+		n++;
+		tmp++;
 	}
-	word[i] = '\0';
+	word = (char *)ft_calloc(n + 1, sizeof(char));
+	word = ft_memcpy(word, (*s), n);
+	(*s) = ft_strtrim(tmp, &c);
 	return (word);
-}
-
-static size_t	count_words(const char *s, char c)
-{
-	int		i;
-	size_t	len;
-
-	i = 0;
-	len = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] == c && s[i + 1] != c && !(i != 0 && s[i - 1] == c))
-			len++;
-		i++;
-	}
-	return (len);
 }
 
 char	**ft_split(char const *s, char c)
 {
+	size_t	n;
+	size_t	i;
 	char	**matrix;
-	size_t	word_len;
-	size_t	nwords;
-	int		i;
+	char	*ite;
 
-	i = 0;
-	nwords = count_words(s, c);
-	if (nwords == 0)
-		return (NULL);
-	matrix = (char **)ft_calloc((nwords + 2), sizeof(char *));
-	if (!matrix)
-		return (NULL);
-	while (*s)
-	{
-		while (*s == c)
-			s++;
-		word_len = get_word_length(s, c);
-		matrix[i] = get_word(s, word_len);
-		s += word_len + 1;
-		i++;
-	}
+	i = -1;
+	ite = ft_strdup(s);
+	ite = ft_strtrim(s, &c);
+	n = word_count(ite, c);
+	matrix = (char **)ft_calloc(n + 1, sizeof(char *));
+	while (++i < n)
+		matrix[i] = word_alloc_fill(&ite, c);
+	free(ite);
 	return (matrix);
 }
 
-// int main()
-// {
-// 	//char frase[]= "en un lugar de la mancha";
-// 	char	**matrix;
-// 	int i;
-
-// 	i = 0;
-// 	matrix = ft_split("lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse", ' ');
-// 	while (i < 12 && matrix)
-// 	{
-// 		printf("%s\n", matrix[i]);
-// 		i++;
-// 	}
-// }
+int main()
+{
+	//char frase[]= "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse";
+	char	**matrix;
+	int i;
+	i = 0;
+	matrix = ft_split("                    ", ' ');
+	while (i < 12 && matrix)
+	{
+		printf("%s\n", matrix[i]);
+		i++;
+	}
+}
