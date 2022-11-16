@@ -34,7 +34,7 @@ size_t	word_count(char const *s, char c)
 		}
 		q++;
 	}
-	return (n);
+	return (n + 1);
 }
 
 char	*word_alloc_fill(char **s, char c)
@@ -50,40 +50,64 @@ char	*word_alloc_fill(char **s, char c)
 		n++;
 		tmp++;
 	}
-	word = (char *)ft_calloc(n + 1, sizeof(char));
-	word = ft_memcpy(word, (*s), n);
-	(*s) = ft_strtrim(tmp, &c);
+	while (*tmp == c)
+		tmp++;
+	word = ft_substr((*s),0, n);
+	(*s) = tmp;
 	return (word);
+}
+
+void	free_matrix(char **matrix, int size)
+{
+	while (size)
+		free(matrix[size--]);
+	free(matrix);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	size_t	n;
-	size_t	i;
+	int		n;
+	int		i;
 	char	**matrix;
 	char	*ite;
 
-	i = -1;
+	i = 0;
+	if (!s)
+		return (NULL);
 	ite = ft_strdup(s);
 	ite = ft_strtrim(s, &c);
 	n = word_count(ite, c);
 	matrix = (char **)ft_calloc(n + 1, sizeof(char *));
-	while (++i < n)
+	if (!matrix)
+		return (NULL);
+	while (i < n)
+	{
 		matrix[i] = word_alloc_fill(&ite, c);
-	free(ite);
+		if (!matrix[i])
+		{
+			free_matrix(matrix, i);
+			return (NULL);
+		}
+		i++;
+	}
+	//free(ite); por que esto no funciona¿?¿? 
 	return (matrix);
 }
 
-int main()
-{
-	//char frase[]= "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse";
-	char	**matrix;
-	int i;
-	i = 0;
-	matrix = ft_split("                    ", ' ');
-	while (i < 12 && matrix)
-	{
-		printf("%s\n", matrix[i]);
-		i++;
-	}
-}
+// int main()
+// {
+// 	//char frase[] = "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse";
+// 	char	**matrix;
+// 	int i;
+// 	i = 0;
+// 	matrix = ft_split("hola", ' ');
+// 	if (matrix[0] == '\0')
+// 		printf("Cadena vacia");
+
+// 	while (i < 1 && matrix)
+// 	{
+// 		printf("%s\n", matrix[i]);
+// 		i++;
+// 	}
+// 	free_matrix(matrix, 1);
+// }
