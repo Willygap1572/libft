@@ -6,13 +6,13 @@
 /*   By: gde-andr <gde-andr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 18:19:00 by gde-andr          #+#    #+#             */
-/*   Updated: 2022/09/18 18:20:06 by gde-andr         ###   ########.fr       */
+/*   Updated: 2022/11/23 14:37:18 by gde-andr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(char *str)
+int	ft_atoi(const char *str)
 {
 	int	ncount;
 	int	i;

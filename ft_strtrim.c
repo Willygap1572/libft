@@ -34,6 +34,13 @@ char	*ft_strtrim(char const *s1, char const *set)
 
 	q = (char *)s1;
 	end = (char *) s1 + ft_strlen(s1) - 1;
+	if (ft_strlen(s1) == 0)
+	{
+		end = (char *)ft_calloc(1, 1);
+		if (!end)
+			return (NULL);
+		return (end);
+	}
 	while (*q && contains(set, *q) != 0)
 		q++;
 	if (*q == '\0')
@@ -45,6 +52,9 @@ char	*ft_strtrim(char const *s1, char const *set)
 
 // int main()
 // {
-// 	char s1[] = "atalorem ipsum dolor sit ameta";
-// 	printf("%s\n",ft_strtrim(s1, "at"));
+// 	char s1[] = "   xxx   xxx";
+// 	char *sol;
+// 	sol = ft_strtrim(s1, " x");
+// 	printf("%s\n",sol);
+
 // }

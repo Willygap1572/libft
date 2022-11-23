@@ -11,100 +11,79 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
-size_t	word_count(char const *s, char c)
+static int	count_words(const char *str, char c)
 {
-	char	*q;
-	size_t	n;
+	int	i;
+	int	flag;
 
-	if (*s == '\0')
-		return (0);
-	n = 0;
-	q = (char *)s;
-	while(*q)
+	i = 0;
+	flag = 0;
+	while (*str)
 	{
-		if (*q == c)
+		if (*str != c && flag == 0)
 		{
-			n++;
-			while (*q == c)
-			{
-				q++;
-			}
+			flag = 1;
+			i++;
 		}
-		q++;
+		else if (*str == c)
+			flag = 0;
+		str++;
 	}
-	return (n + 1);
+	return (i);
 }
 
-char	*word_alloc_fill(char **s, char c)
+static char	*word_alloc_fill(const char *str, int start, int finish)
 {
 	char	*word;
-	char	*tmp;
-	int		n;
+	int		i;
 
-	n = 0;
-	tmp = *s;
-	while (*tmp != c && *tmp != '\0')
-	{
-		n++;
-		tmp++;
-	}
-	while (*tmp == c)
-		tmp++;
-	word = ft_substr((*s),0, n);
-	(*s) = tmp;
+	i = 0;
+	word = malloc((finish - start + 1) * sizeof(char));
+	while (start < finish)
+		word[i++] = str[start++];
+	word[i] = '\0';
 	return (word);
-}
-
-void	free_matrix(char **matrix, int size)
-{
-	while (size)
-		free(matrix[size--]);
-	free(matrix);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	int		n;
-	int		i;
-	char	**matrix;
-	char	*ite;
+	size_t	i;
+	size_t	j;
+	int		index;
+	char	**split;
 
+	split = ft_calloc((count_words(s, c) + 1), sizeof(char *));
+	if (!s || !split)
+		return (0);
 	i = 0;
-	if (!s)
-		return (NULL);
-	ite = ft_strdup(s);
-	ite = ft_strtrim(s, &c);
-	n = word_count(ite, c);
-	matrix = (char **)ft_calloc(n + 1, sizeof(char *));
-	if (!matrix)
-		return (NULL);
-	while (i < n)
+	j = 0;
+	index = -1;
+	while (i <= ft_strlen(s))
 	{
-		matrix[i] = word_alloc_fill(&ite, c);
-		if (!matrix[i])
+		if (s[i] != c && index < 0)
+			index = i;
+		else if ((s[i] == c || i == ft_strlen(s)) && index >= 0)
 		{
-			free_matrix(matrix, i);
-			return (NULL);
+			split[j++] = word_alloc_fill(s, index, i);
+			index = -1;
 		}
 		i++;
 	}
-	//free(ite); por que esto no funciona¿?¿? 
-	return (matrix);
+	split[j] = 0;
+	return (split);
 }
 
 // int main()
 // {
-// 	//char frase[] = "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse";
+// 	//char frase[] = "lorem ipsum. Sed non risus. Suspendisse";
 // 	char	**matrix;
 // 	int i;
 // 	i = 0;
-// 	matrix = ft_split("hola", ' ');
+// 	matrix = ft_split("      split       this for   me  !       ", ' ');
 // 	if (matrix[0] == '\0')
 // 		printf("Cadena vacia");
-
-// 	while (i < 1 && matrix)
+// 	while (i < 6 && matrix)
 // 	{
 // 		printf("%s\n", matrix[i]);
 // 		i++;
